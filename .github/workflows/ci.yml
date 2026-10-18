@@ -34,3 +34,16 @@ jobs:
         run: |
           cd day-24
           docker build -t ml-valuation-api:latest .
+      - name: Install Day 25 Dependencies
+        run: |
+          pip install -r day-25/requirements.txt
+
+      - name: Run Day 25 Pytest Suite
+        run: |
+          cd day-25
+          pytest test_api.py -v
+
+      - name: Build Day 25 Docker Image
+        run: |
+          cd day-25
+          docker build -t ml-model-service:day25 .
