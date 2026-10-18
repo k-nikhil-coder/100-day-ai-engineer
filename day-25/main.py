@@ -69,7 +69,6 @@ def predict(payload: ValuationPayload):
     if "model" not in model_bundle:
         raise HTTPException(status_code=503, detail="Model is not loaded")
 
-    # Format as DataFrame matching training feature names to eliminate warnings
     features_df = pd.DataFrame([{
         "MedInc": payload.med_inc,
         "HouseAge": payload.house_age,
