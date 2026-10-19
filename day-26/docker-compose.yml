@@ -1,0 +1,24 @@
+services:
+  redis-cache:
+    image: redis:7-alpine
+    container_name: ml_redis_cache
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  inference-api:
+    build: .
+    container_name: ml_cached_inference_api
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=redis-cache
+      - REDIS_PORT=6379
+      - CACHE_TTL_SECONDS=3600
+    depends_on:
+      redis-cache:
+        condition: service_healthy
